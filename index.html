@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+
+<head>
+<title>psadosky</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.poptrox.min.js"></script>
+<script src="js/skel.min.js"></script>
+<script src="js/init.js"></script>
+<noscript>
+<link rel="stylesheet" href="css/skel.css" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/style-xlarge.css" />
+</noscript>
+<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58352859-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body id="top">
+
+<header id="header">
+<a class="image avatar"><img src="images/peter.jpg"/></a>
+<h1><strong>I'm Peter Sadosky</strong>, and I'm an undergrad at Carnegie Mellon 
+in Pittsburgh. I put some of my statistics and data work here</h1>
+</header>
+
+<div id="main">
+
+<section id="six">
+
+<header class="major">
+<h2>Charting 3&D Players in the NBA this Year</h2>
+</header>
+
+<a class="image"><img src="images/3d2.png" alt=""/></a>
+
+<p>'3&D' players in basketball are ones who contribute to their teams largely by
+scoring a good amount from three and playing solid defense. These are two
+of the most important skills in the modern NBA, which makes such players
+incredibly valuable.
+</p>
+
+<p> This chart just takes into account 3P%, given that a player averages
+over one three pointer a game. The black lines are the 75th percentiles for
+each stat, so players in the top right are the strongest 3&D players. Obviously
+some of them, like Steph, are more than just 3&D players.</p>
+
+<p>Jamal Crawford is the anti-3&D player.</p>
+
+<a class="image"><img src="images/3d.png" alt=""/></a>
+
+<p>I wanted to show the metric 3PM * 3P% also because
+I feel like Steph Curry is a better shooter than Kyle Korver. Korver might have
+a higher shooting percentage, but he isn't getting the brunt of the opponent's
+defense every night. So 3PM takes into account volume shooters, and gives people
+like Steph a boost over people like Kawhi, who only take a few 3 point shots a game. </p>
+
+<p>The data for the chart was scraped from ESPN and Basketball Reference, 
+and can be found here: <a href="data/nba-data.html">CSV data</a>
+</p>
+
+<section id="seven">
+
+<header class="major">
+<h2>NBA Shot Chart for Best Player in Basketball</h2>
+</header>
+
+<a class="image"><img src="images/westbrook.png" alt=""/></a>
+
+<p> Thanks to <a href="http://savvastjortjoglou.com/nba-shot-sharts.html">http://savvastjortjoglou.com/nba-shot-sharts.html</a> for showing
+how to do this. I'm going to try out a percentage shot chart soon.</p>
+
+</section>
+
+</section>
+
+<section id="four">
+
+<header class="major">
+<h2>Visualizing Concentrations of Restaurants in Pittsburgh (work in progress)</h2>
+</header>
+<iframe width='100%' height='500px' frameBorder='0' src='https://a.tiles.mapbox.com/v4/psadosky.ld9o7hel/attribution,zoompan,zoomwheel,geocoder,share.html?access_token=pk.eyJ1IjoicHNhZG9za3kiLCJhIjoieTVCVi11ZyJ9.qBVuXYcLR28d2xNoEs2KIA'></iframe>
+</section>
+
+<section id="five">
+
+<header class="major">
+<h2>Yelp Restaurant Recommendation Engine for Pittsburgh </h2>
+</header>
+<p><a href="https://bidm.shinyapps.io/shiny/">Restaurant Recommendation Engine!
+</a></p>
+<p>For a class, I made a recommendation engine for restaurants in Pittsburgh.
+The link to it is right above. You input three restaurants you've been to and 
+how much you liked them, and the engine outputs a restaurant recommendation 
+for where you'd probably like to go next.</p>
+
+<p>The tool was made using the dataset available from the <a href="http://www.yelp.com/dataset_challenge">Yelp Dataset Challenge</a>. It includes information
+on restaurants, like where they are, what kinds of food they have, and how
+popular and how expensive they are. Using these fields for each restaurant in
+Pittsburgh, I clustered restaurants such that similar restaurants fall into the
+same cluster. The clustering was done in SAS EM, which uses a Cubic Clustering
+Criterion to estimate an appropriate number of clusters.</p>
+
+<p>Once clusters are formed, the user's inputted restaurants are considered. A
+cluster to make a recommendation from is chosen by determining which clusters the
+user's restaurants fall under, and then taking into account the weighting given
+by the score each restaurant receieved. The cluster with the highest average
+ranking is selected as the one to search within. In the case of a tie between
+two clusters, a decision is made at random.</p>
+
+<a class="image"><img src="images/clustering.png" alt=""/></a>
+
+<p>Within the selected cluster, we can see where, on a distance mapping, the user's
+restaurants are in relation to the other restaurants in the cluster. A distance
+vector is created, with weighting to the restaurants' existing average ratings
+from all Yelp users, to determine which restaurant is both close in distance
+to the individual user's preferred restaurants and has a high average rating.
+This is the restaurant that is outputted as the recommendation.</p>
+
+<a class="image"><img src="images/clustering2.png" alt=""/></a>
+
+<p>There are many areas for improvement. One is taking into account the restaurant
+rating history of a user's friends, which could be a good measure for what
+the user would like to go to. Each user in the Yelp dataset is matched with
+his or her friends (through unique identifiers), so such a model could be built.
+But through testing of the approach above, the results seem quite accurate and
+reasonable for the revealed preferences given by the user.</p>
+</section> 
+
+
+<section id="one">
+
+<header class="major">
+<h2>How Important are All-Stars for an NBA Team?</h2>
+</header>
+
+<p>Of the around 518<sup><small><a href="https://web.archive.org/web/20131029022900/http://www.basketball-reference.com/contracts/players.html">1</a></small></sup> players who were signed to a contract during the 2013-14 NBA season, 24 of them were named as All-Stars. That puts those 24 players into an incredibly selective group, as they're chosen from a pool of players who are already the very best in the world.</p> 
+
+<p>Of interest is the benefit All-Stars bring to an NBA team. All-Stars have a cost in terms of much higher salary requirements, and so the hope is that they bring regular season and playoff success to the teams for which they play. Questions to consider: does having an All-Star really boost the number of wins for a team during the regular season? Does it help them get further in the playoffs? How much of a team's success can be attributed to their All-Stars?</p>
+
+<p>To gauge the cost of having an All-Star on a team, we can look at salaries:</p>
+
+<a class="image"><img src="images/nba-salaries.png" alt="" /></a>
+
+<p>There is a clear difference in salaries for All-Stars versus non-All-Stars. Few regular players make more than $10M a year, while the average for an All-Star is much higher than that. The All-Star salaries are in red and the regular salaries are in blue, and a density curve for each group is plotted. The mean and standard deviation for the two groups are:</p>
+
+<table style="width:50%">
+<tr>
+<td></td>
+<td>Mean ($)</td>		
+<td>St. Dev. ($)</td>
+</tr>
+<tr>
+<td>All Stars</td>
+<td>13,815,908</td>		
+<td>6,071,697</td>
+</tr>
+<tr>
+<td>Non-All Stars</td>
+<td>4,522,527</td>		
+<td>4,831,684</td>
+</tr>
+</table>
+
+<p>A Wilcoxon Test, which is a statistical hypothesis test for comparing two non-normally distributed related samples, of these two groups results in a p-value of 5.324 * 10<sup>-11</sup>, which is low enough to suggest a statistically significant difference in salaries at any reasonable alpha level (W=1166.5 with a one-tailed hypothesis test).</p>
+
+<p>Now that we have established a significant difference in salaries for All-Stars, we can see what impact they have on regular season wins for their teams:</p>
+
+<a class="image"><img src="images/allstar-wins.png"/></a>
+
+<p>In this graphic, which shows the distributions of wins for teams with and without All-Stars as boxplots, we can see a clear increase in the number of wins for teams with All Star players. There is some degree of overlap, as some teams without All Stars have more wins than teams with, but the overall trend is clear. This difference is statistically significant with a p-value of 0.0001451 (by performing a one-tailed Welch two sample t-test with alpha = 0.01). 
+
+<p>A linear regression model, with the number of regular season wins as the response variable and the presence of an All-Star as the predictor variable (which is binary, with 1 meaning that the team has an All-Star), results in:</p>
+
+<table style="width:50%">
+<tr>
+<td></td>
+<td>Coefficient</td>		
+<td>Std. Error</td>
+<td>p-value</td>
+</tr>
+<tr>
+<td>Intercept</td>
+<td>31.692</td>		
+<td>2.797</td>
+<td>5.72e-12<font color="red">***</font></td>
+</tr>
+<tr>
+<td>Has Allstar</td>
+<td>16.425</td>		
+<td>3.716</td>
+<td>0.000135<font color="red">***</font></td>
+</tr>
+</table>
+
+<p>The regression model can be presented in the form <code><i>Team.Wins = 31.692 + 16.425 * Has.Allstar</i></code>. This would indicate that a team having an All-Star boosts their wins by about 16 and a half games for the year. The R<sup>2</sup> = 0.3899, which means that the presence of an All-Star accounts for about 39% of the variation in the number of regular season wins for a team. This is not a great model, as there are some unexplained factors going into team wins, and also that there are likely confounding effects between having an All-Star and team wins. One cause for concern is that the number of wins for a team over the last few years is likely to draw All-Stars to the team in the first place, and also that All-Stars are selected based on win percentages of the team, and so teams that are winning are more likely to have All-Stars, which reverses the relationship between All-Stars and wins.</p>
+
+<p>However, with one exception, the All Stars from the 2013-14 season had been on the same team as from the year before (Dwight Howard is the one who transferred teams from the previous year). Thus, we can make an assumption that the All Stars were playing at a similar level as they did the previous year, and so played similarly to benefit their team in the 2013-14 season. This would mean that the All Stars selected were independent of the team's wins that year, as the players selected were consistenly playing at a high level to suppor their team, regardless of had they been selected as All Stars or not. This would support the use of All Stars as a predictor for team wins in a regression model.</p>
+
+<p>We can further look at the effect of All-Stars on the playoff results of their teams:</p>
+
+<a class="image"><img src="images/playoff-wins.png" alt="" /></a>
+
+<p> And in this graphic, we can see that teams without an All-Star player didn't make it past the second round of the playoffs in the 2013-14 season, while all the teams that made the conference finals and league finals had at least one All-Star.</p>
+
+<p>A linear regression model of this relationship, of playoff wins on a binary All-Star variable, takes the form <code><i>Playoff.Wins = 0.07692 + 0.74661 * Has.Allstar</i></code>. The output is:</p>
+
+<table style="width:50%">
+<tr>
+<td></td>
+<td>Coefficient</td>		
+<td>Std. Error</td>
+<td>p-value</td>
+</tr>
+<tr>
+<td>Intercept</td>
+<td>0.07692</td>		
+<td>0.26413</td>
+<td>0.7730</td>
+</tr>
+<tr>
+<td>Has Allstar</td>
+<td>0.74661</td>		
+<td>0.35087</td>
+<td>0.0423<font color="red">*</font></td>
+</tr>
+</table>
+
+<p>This regression suggests that the presence of an All-Star on a team results in about 0.7 playoff series wins over not having an All-Star. This model is simple and not completely robust, as the data is for only one year, but the trend, particularly in the graph, is clear.</p>
+
+<p>We have looked at how All-Stars impact regular season and playoff performance of their respective teams, and conclude that All-Stars bring substantial benefit to their teams. Their teams win more games, which likely contributes to ticket and merchandise sales, and they go further in the playoffs. Teams without All-Stars didn't make it past the divisional round of the playoffs in 2014. In a game where one player can take over a series, having All-Stars players is critical and often worth the cost of their higher contracts.</p>
+
+<a href="code/nba.R">Link to R code for graphs and regressions</a>
+
+</section>
+
+<!-- One -->
+<section id="one">
+
+<header class="major">
+<h2>2010 World Cup: How do the Best Teams Compare?</h2>
+</header>
+
+<p>We are interested in breaking down the best World Cup soccer teams by player position on the field. Each rose plot in the graphic below represents a player, and each subsection of the rose plot is one of the four teams that went the furthest in the World Cup. Red represents Germany, green the Netherlands, blue Spain, and purple Uruguay. Forwards are measured by the number of shots they take on goal, midfielders by their number of passes, defenders by their number of attempted tackles, and goalies by their number of saves.</p>
+
+<a class="image fit"><img src="images/soccer.jpg" alt="" /></a>
+
+<p>We can see a number of trends in this graph. Spanish midfielders pass the ball far more frequently than do those of other countries. German defenders are aggressive in terms of attempted tackles, and overall Germany seems to be forced to make more plays on the defensive side of the ball. Uruguay, in comparison, plays more on the offensive side of the field.</p> 
+
+<p>Spain won this World Cup, and their playstyle can be best characterized as a balance between good offense and defense - they make the second most tackles of the teams while also passing and scoring at a high rate.</p>
+						
+<p><a href="code/soccer.R">Code in R</a></p>
+
+</section>
+				
+</div>
+			
+<!-- Footer -->
+<footer id="footer">
+<ul class="icons">
+<li><a href="https://github.com/petersadosky/" class="icon fa-github" target="_blank"><span class="label">Github</span></a></li>
+<li><a href="https://www.flickr.com/photos/97088076@N07/" class="icon fa-flickr" target="_blank"><span class="label">Flickr</span></a></li>
+</ul>
+<!-- <ul class="copyright">
+<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+</ul> -->
+<a href="mailto:psadosky@gmail.com">psadosky@gmail.com</a>
+<p>
+Feel free to email me about anything</p>
+</footer>
+
+</body>
+</html>
